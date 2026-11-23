@@ -9,7 +9,8 @@ export default defineConfig({
     timeout: 20000,
   },
   /* Run all test files in parallel */
-  fullyParallel: true,
+  fullyParallel: false,
+  workers: 1,
   /* Automatically retry once if running in a staging environment that is unstable */
   retries: 1,
   /* Export an HTML report upon completion */
