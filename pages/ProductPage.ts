@@ -36,6 +36,7 @@ export class ProductPage extends BasePage {
   }
   
   async addToCart(): Promise<void> {
+    await expect(this.addToCartButton).toHaveText(/add to cart/i, { timeout: 15000 });
     await expect(this.addToCartButton).toBeEnabled({ timeout: 15000 });
     await this.addToCartButton.click();
   }
