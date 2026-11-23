@@ -26,9 +26,10 @@ test('TC02: Guest selects Size M, color White and adds item to bag', async () =>
 });
 
 // TEST CASE 3: Dynamic Variant State Switching
-test('TC03: User can switch sizes from S to L and color from Black to White before adding to bag', async () => {
+  test('TC03: User can switch sizes from S to L and color from Black to White before adding to bag', async () => {
     await productPage.selectSize('S');
     await productPage.selectSize('L');
+    await productPage.selectSize('M');
     await productPage.selectColor('Black');
     await productPage.selectColor('White');
     await productPage.addToCart();
