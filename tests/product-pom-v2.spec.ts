@@ -34,6 +34,7 @@ test('TC02: Guest selects Size M, color White and adds item to bag', async () =>
     await productPage.selectColor('White');
     await productPage.addToCart();
     await expect(cartPage.cartDrawer).toBeVisible();
+    await expect(cartPage.cartDrawer).toContainText(/Cart\s*\(1\)/i);
   });
 
 // TEST CASE 4: Product & Cart Data Synchronization
