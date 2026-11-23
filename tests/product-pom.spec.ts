@@ -1,0 +1,21 @@
+import { test, expect } from '@playwright/test';
+import { ProductPage } from '../pages/ProductPage';
+
+test.describe('Medusa Storefront - POM Variant Selection', () => {
+
+  test('Student verifies variant selection & cart interaction via POM', async ({ page }) => {
+    // 1. Instantiate the Page Object
+    const productPage = new ProductPage(page);
+
+    // 2. Navigate via BasePage method
+    await productPage.navigateTo('/products/sweatshirt');
+    await expect(productPage.productTitle).toContainText(/sweatshirt/i);
+
+    // 3. Perform actions through business methods (NO raw selectors!)
+    await productPage.selectSize('M');
+    await productPage.addToCart();
+
+    // 4. Assert UI state change (Web-first assertion)
+    await expect(page.getByRole('dialog')).toBeVisible();
+  });
+});
