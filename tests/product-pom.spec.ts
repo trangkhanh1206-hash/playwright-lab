@@ -8,8 +8,8 @@ test.describe('Medusa Storefront - POM Variant Selection', () => {
     const productPage = new ProductPage(page);
 
     // 2. Navigate via BasePage method
-    await productPage.navigateTo('/vn/products/classic t-shirt');
-    await expect(productPage.productTitle).toContainText(/classic t-shirt/i);
+    await productPage.openProductFromStore('Classic T-Shirt');
+    await expect(productPage.productTitle).toContainText(/classic t-shirt/i, { timeout: 15000 });
 
     // 3. Perform actions through business methods (NO raw selectors!)
     await productPage.selectSize('M');
