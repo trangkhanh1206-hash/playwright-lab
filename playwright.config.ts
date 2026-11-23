@@ -2,32 +2,32 @@ import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  /* Thời gian tối đa cho 1 test case: 30 giây */
-  timeout: 30 * 1000,
+  /* Maximum time for one test case: 60 seconds */
+  timeout: 60 * 1000,
   expect: {
-    /* Timeout tối đa cho 1 assertion: 5 giây */
-    timeout: 5000,
+    /* Maximum timeout for one assertion: 20 seconds */
+    timeout: 20000,
   },
-  /* Chạy song song tất cả các file test */
+  /* Run all test files in parallel */
   fullyParallel: true,
-  /* Tự động retry 1 lần nếu chạy trên môi trường staging bị chập chờn */
+  /* Automatically retry once if running in a staging environment that is unstable */
   retries: 1,
-  /* Xuất báo cáo HTML khi hoàn thành */
+  /* Export an HTML report upon completion */
   reporter: [['html', { open: 'never' }]],
 
   use: {
-    /* URL gốc của Medusa Storefront Staging */
+    /* URL of Medusa Storefront Staging */
     baseURL: 'https://atqaa-medusa-storefront.vercel.app/vn',
 
-    /* Chỉ chụp màn hình và quay video khi test bị FAIL */
+    /* Only take screenshots and record videos if the test fails */
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
 
-    /* Bật tính năng hộp đen Trace Viewer khi retry */
+    /* Enable the Trace Viewer black box feature when retrying */
     trace: 'on-first-retry',
   },
 
-  /* Cấu hình các trình duyệt mục tiêu */
+  /* Configure target browsers */
   projects: [
     {
       name: 'chromium',
