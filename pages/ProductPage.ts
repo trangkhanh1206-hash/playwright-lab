@@ -4,24 +4,22 @@ import { BasePage } from './BasePage';
 export class ProductPage extends BasePage {
   readonly productTitle: Locator;
   readonly addToCartButton: Locator;
+  readonly priceTag: Locator;
 
   constructor(page: Page) {
     super(page);
-    // User-centric accessibility locators
-    this.productTitle = page.getByRole('heading', { level: 1 });
+    // Use the first heading (h2 tag with the product name on the detail page)
+    this.productTitle = page.getByRole('heading').first();
     this.addToCartButton = page.getByRole('button', { name: /add to cart/i });
+    this.priceTag = page.getByTestId('product-price');
   }
 
   async selectSize(size: string): Promise<void> {
-    // Locates button by accessible text 'M', 'L', etc.
-    const sizeButton = this.page.getByRole('button', { name: size, exact: true });
-    await sizeButton.click();
+    await this.page.getByRole('button', { name: size, exact: true }).click();
   }
 
   async selectColor(color: string): Promise<void> {
-    // Locates button by accessible text 'Black', 'White', etc.
-    const colorButton = this.page.getByRole('button', { name: color, exact: true });
-    await colorButton.click();
+    await this.page.getByRole('button', { name: color, exact: true }).click();
   }
   
   async addToCart(): Promise<void> {
