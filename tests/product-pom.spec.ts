@@ -8,11 +8,12 @@ test.describe('Medusa Storefront - POM Variant Selection', () => {
     const productPage = new ProductPage(page);
 
     // 2. Navigate via BasePage method
-    await productPage.navigateTo('/products/sweatshirt');
-    await expect(productPage.productTitle).toContainText(/sweatshirt/i);
+    await productPage.navigateTo('/vn/products/classic t-shirt');
+    await expect(productPage.productTitle).toContainText(/classic t-shirt/i);
 
     // 3. Perform actions through business methods (NO raw selectors!)
     await productPage.selectSize('M');
+    await productPage.selectColor('White');
     await productPage.addToCart();
 
     // 4. Assert UI state change (Web-first assertion)
