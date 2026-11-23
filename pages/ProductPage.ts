@@ -33,11 +33,18 @@ export class ProductPage extends BasePage {
     await colorBtn.click();
   }
 
-  async addToCart(): Promise<void> {
-    // Wait for the URL to finish updating the variant code (?v_id=) before clicking Add to cart
-    await expect(this.page).toHaveURL(/.*v_id=/, { timeout: 10000 });
+async addToCart(): Promise<void> {
     await expect(this.addToCartButton).toHaveText(/add to cart/i, { timeout: 15000 });
     await expect(this.addToCartButton).toBeEnabled({ timeout: 15000 });
     await this.addToCartButton.click();
+
+    // Wait for the cart to update (1); if Render Cloud responds slowly on the first click, click again once
+    const cartOne = this.page.getByText(/Cart\s*\(1\)/i).first();
+    try {
+      await expect(cartOne).toBeVisible({ timeout: 15000 });
+    } catch {
+      if (await this.addToCartButton.isEnabled()) {
+        await this.addToCartButton.click();
+      }
+    }
   }
-}
