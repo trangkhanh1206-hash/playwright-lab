@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { ProductPage } from '../pages/ProductPage';
-import { ProductPage } from '../pages/CartPage';
+import { CartPage } from '../pages/CartPage';
 
 test.describe('Medusa Storefront - POM Variant Selection', () => {
 
