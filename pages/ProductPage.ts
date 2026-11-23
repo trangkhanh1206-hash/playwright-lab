@@ -23,31 +23,21 @@ export class ProductPage extends BasePage {
 
   async selectSize(size: string): Promise<void> {
     const sizeBtn = this.page.getByRole('button', { name: size, exact: true });
-    if (await sizeBtn.isVisible()) {
-      await sizeBtn.click();
-    }
+    await expect(sizeBtn).toBeVisible({ timeout: 10000 });
+    await sizeBtn.click();
   }
 
   async selectColor(color: string): Promise<void> {
     const colorBtn = this.page.getByRole('button', { name: color, exact: true });
-    if (await colorBtn.isVisible()) {
-      await colorBtn.click();
-    }
+    await expect(colorBtn).toBeVisible({ timeout: 10000 });
+    await colorBtn.click();
   }
-  
-async addToCart(): Promise<void> {
+
+  async addToCart(): Promise<void> {
+    // Wait for the URL to finish updating the variant code (?v_id=) before clicking Add to cart
+    await expect(this.page).toHaveURL(/.*v_id=/, { timeout: 10000 });
     await expect(this.addToCartButton).toHaveText(/add to cart/i, { timeout: 15000 });
     await expect(this.addToCartButton).toBeEnabled({ timeout: 15000 });
     await this.addToCartButton.click();
-
-    // Wait for the Cart counter (1) to appear; if Render Cloud is blocked on the first click, click again once
-    const cartOne = this.page.getByText(/Cart\s*\(1\)/i).first();
-    try {
-      await expect(cartOne).toBeVisible({ timeout: 12000 });
-    } catch {
-      if (await this.addToCartButton.isEnabled()) {
-        await this.addToCartButton.click();
-      }
-    }
   }
 }
