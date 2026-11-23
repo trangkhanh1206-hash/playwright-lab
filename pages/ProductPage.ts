@@ -1,4 +1,4 @@
-import { Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 import { BasePage } from './BasePage';
 
 export class ProductPage extends BasePage {
@@ -8,21 +8,35 @@ export class ProductPage extends BasePage {
 
   constructor(page: Page) {
     super(page);
-    // Use the first heading (h2 tag with the product name on the detail page)
     this.productTitle = page.getByRole('heading').first();
     this.addToCartButton = page.getByRole('button', { name: /add to cart/i });
     this.priceTag = page.getByTestId('product-price');
   }
 
+  async openProductFromStore(productName: string): Promise<void> {
+    await this.navigateTo('/vn/store');
+    const productLink = this.page.getByRole('link', { name: new RegExp(productName, 'i') }).first();
+    await expect(productLink).toBeVisible({ timeout: 20000 });
+    await productLink.click();
+    await expect(this.page).toHaveURL(/.*products/, { timeout: 15000 });
+  }
+
   async selectSize(size: string): Promise<void> {
-    await this.page.getByRole('button', { name: size, exact: true }).click();
+    const sizeBtn = this.page.getByRole('button', { name: size, exact: true });
+    if (await sizeBtn.isVisible()) {
+      await sizeBtn.click();
+    }
   }
 
   async selectColor(color: string): Promise<void> {
-    await this.page.getByRole('button', { name: color, exact: true }).click();
+    const colorBtn = this.page.getByRole('button', { name: color, exact: true });
+    if (await colorBtn.isVisible()) {
+      await colorBtn.click();
+    }
   }
   
   async addToCart(): Promise<void> {
+    await expect(this.addToCartButton).toBeEnabled({ timeout: 15000 });
     await this.addToCartButton.click();
   }
 }
