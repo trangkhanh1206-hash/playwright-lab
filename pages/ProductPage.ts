@@ -35,9 +35,19 @@ export class ProductPage extends BasePage {
     }
   }
   
-  async addToCart(): Promise<void> {
+async addToCart(): Promise<void> {
     await expect(this.addToCartButton).toHaveText(/add to cart/i, { timeout: 15000 });
     await expect(this.addToCartButton).toBeEnabled({ timeout: 15000 });
     await this.addToCartButton.click();
+
+    // Wait for the Cart counter (1) to appear; if Render Cloud is blocked on the first click, click again once
+    const cartOne = this.page.getByText(/Cart\s*\(1\)/i).first();
+    try {
+      await expect(cartOne).toBeVisible({ timeout: 12000 });
+    } catch {
+      if (await this.addToCartButton.isEnabled()) {
+        await this.addToCartButton.click();
+      }
+    }
   }
 }
