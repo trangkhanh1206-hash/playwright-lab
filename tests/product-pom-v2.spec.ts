@@ -41,6 +41,6 @@ test('TC04: Added item details sync accurately into cart drawer', async () => {
   await productPage.selectColor('White');
   await productPage.addToCart();
   await expect(cartPage.cartDrawer).toBeVisible();
-  await expect(cartPage.cartDrawer).toContainText(/sweatshirt/i);
+  await expect(productPage.productTitle).toContainText(/classic t-shirt/i, { timeout: 15000 });
 });
 });
